@@ -76,15 +76,14 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
             pst = conexao.prepareStatement(sql);
 
-            pst.setString(1, txtSupRede.getText());
-            
-            pst.setString(2, txtCorRede.getText());
-            pst.setString(3, txtPrRede.getText());
-            pst.setString(4, txtDistrito.getText());
-            pst.setString(5, txtArea.getText());
-            pst.setString(6, txtSetor.getText());
-            pst.setString(7, txtLider.getText());
-            pst.setString(8, txtIdLider.getText());
+            pst.setString(1, txtSupRede.getText().toUpperCase());
+            pst.setString(2, txtCorRede.getText().toUpperCase());
+            pst.setString(3, txtPrRede.getText().toUpperCase());
+            pst.setString(4, txtDistrito.getText().toUpperCase());
+            pst.setString(5, txtArea.getText().toUpperCase());
+            pst.setString(6, txtSetor.getText().toUpperCase());
+            pst.setString(7, txtLider.getText().toUpperCase());
+            pst.setString(8, txtIdLider.getText().toUpperCase());
             if ((txtSupRede.getText().isEmpty() || txtCorRede.getText().isEmpty() || txtPrRede.getText().isEmpty() || txtDistrito.getText().isEmpty()
                     || txtArea.getText().isEmpty() || txtSetor.getText().isEmpty() || txtLider.getText().isEmpty() || txtIdLider.getText().isEmpty())) {
 
@@ -100,11 +99,6 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
                     JOptionPane.showMessageDialog(null, "Dados inseridos com sucesso.");
                     txtId.setText(null);
-                    txtSupRede.setText(null);
-                    txtCorRede.setText(null);
-                    txtPrRede.setText(null);
-                    txtDistrito.setText(null);
-                    txtArea.setText(null);
                     txtSetor.setText(null);
                     txtLider.setText(null);
                     txtIdLider.setText(null);
@@ -125,15 +119,15 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
             pst = conexao.prepareStatement(sql);
 
-            pst.setString(1, txtSupRede.getText());
-            pst.setString(2, txtCorRede.getText());
-            pst.setString(3, txtPrRede.getText());
-            pst.setString(4, txtDistrito.getText());
-            pst.setString(5, txtArea.getText());
-            pst.setString(6, txtSetor.getText());
-            pst.setString(7, txtLider.getText());
-            pst.setString(8, txtIdLider.getText());
-            pst.setString(8, txtId.getText());
+            pst.setString(1, txtSupRede.getText().toUpperCase());
+            pst.setString(2, txtCorRede.getText().toUpperCase());
+            pst.setString(3, txtPrRede.getText().toUpperCase());
+            pst.setString(4, txtDistrito.getText().toUpperCase());
+            pst.setString(5, txtArea.getText().toUpperCase());
+            pst.setString(6, txtSetor.getText().toUpperCase());
+            pst.setString(7, txtLider.getText().toUpperCase());
+            pst.setString(8, txtIdLider.getText().toUpperCase());
+            pst.setString(8, txtId.getText().toUpperCase());
 
             if ((txtSupRede.getText().isEmpty() || txtCorRede.getText().isEmpty() || txtPrRede.getText().isEmpty() || txtDistrito.getText().isEmpty()
                     || txtArea.getText().isEmpty() || txtSetor.getText().isEmpty() || txtLider.getText().isEmpty() || txtIdLider.getText().isEmpty())) {
@@ -180,7 +174,9 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
             int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza da remoção desse Cadastro.", "Atenção", JOptionPane.YES_NO_OPTION);
             if (JOptionPane.YES_OPTION == confirma) {
+                
                 String sql = "delete from tbl_redes where id_rede=?";
+                
                 try {
 
                     pst = conexao.prepareStatement(sql);
@@ -224,7 +220,8 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
                 txtArea.setText(rs.getString("area_rede"));
                 txtSetor.setText(rs.getString("setor_rede"));
                 txtLider.setText(rs.getString("lider_cel_rede"));
-
+                txtIdLider.setText(rs.getString("cod_lider_rede"));
+                
             }
 
         } catch (Exception e) {
@@ -557,7 +554,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_BACK_SPACE:
-                txtCorRede.requestFocus();
+               
                 break;
             case KeyEvent.VK_ENTER:
                 txtCorRede.requestFocus();
@@ -576,7 +573,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_BACK_SPACE:
-                txtPrRede.requestFocus();
+               
                 break;
             case KeyEvent.VK_ENTER:
                 txtPrRede.requestFocus();
@@ -595,7 +592,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_BACK_SPACE:
-                txtDistrito.requestFocus();
+              
                 break;
             case KeyEvent.VK_ENTER:
                 txtDistrito.requestFocus();
@@ -614,7 +611,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_BACK_SPACE:
-                txtArea.requestFocus();
+              
                 break;
             case KeyEvent.VK_ENTER:
                 txtArea.requestFocus();
@@ -633,7 +630,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_BACK_SPACE:
-                txtSetor.requestFocus();
+              
                 break;
             case KeyEvent.VK_ENTER:
                 txtSetor.requestFocus();
@@ -652,7 +649,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_BACK_SPACE:
-                txtLider.requestFocus();
+                
                 break;
             case KeyEvent.VK_ENTER:
                 txtLider.requestFocus();
@@ -671,7 +668,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_BACK_SPACE:
-                txtIdLider.requestFocus();
+                
                 break;
             case KeyEvent.VK_ENTER:
                 txtIdLider.requestFocus();
@@ -688,21 +685,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
     private void txtIdLiderKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdLiderKeyPressed
         // TODO add your handling code here:
-        switch (evt.getKeyCode()) {
-            case KeyEvent.VK_BACK_SPACE:
-                adicionar();
-                break;
-            case KeyEvent.VK_ENTER:
-                adicionar();
-                break;
-            default:
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
 
-                    }
-                });
-        }
     }//GEN-LAST:event_txtIdLiderKeyPressed
 
 
