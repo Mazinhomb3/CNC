@@ -50,9 +50,7 @@ public class TelaLogin extends javax.swing.JFrame {
             if (rs.next()) {
 
                 String perfil = rs.getString(5);
-                //TESTE DE CONEXAO DE USUARIO E SENHA
-                //System.out.println();
-                //Aestrutura abaixo faz o tratamento do perfil do usuario
+                
                 if (perfil.equals("admin")) {
 
                     TelaPrincipal principal = new TelaPrincipal();
@@ -96,7 +94,7 @@ public class TelaLogin extends javax.swing.JFrame {
 
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario ou Senha ivalidos ");
-                txtSenha.setText(null);
+                txtLogin.setText(null);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
