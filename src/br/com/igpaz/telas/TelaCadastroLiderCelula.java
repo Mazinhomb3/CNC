@@ -77,6 +77,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
             pst = conexao.prepareStatement(sql);
 
             pst.setString(1, txtSupRede.getText());
+            
             pst.setString(2, txtCorRede.getText());
             pst.setString(3, txtPrRede.getText());
             pst.setString(4, txtDistrito.getText());
