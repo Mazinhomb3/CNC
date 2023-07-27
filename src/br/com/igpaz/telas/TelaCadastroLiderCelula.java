@@ -26,9 +26,6 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         this.pesquisa_avancada();
 
         //selecao da tabela por ordem
-        DefaultTableModel modelo = (DefaultTableModel) tblPastor.getModel();
-        tblPastor.setRowSorter(new TableRowSorter(modelo));
-
         //Verifica data do sistema
         Date data = new Date();
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
@@ -38,10 +35,10 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
     }
 
     private void pesquisa_avancada() {
-        String sql = "select id_rede as ID, superv_rede as Supervisor , cor_rede as Cor , pr_rede as Pr, distrito_rede as Distrito, area_rede as Área, setor_rede as Setor, lider_cel_rede as Líder, cod_lider_rede as ID_Lider from tbl_redes  where cod_lider_rede like ?";
+        String sql = "select id_rede as ID, superv_rede as Supervisor , cor_rede as Cor , pr_rede as Pr, distrito_rede as Distrito, area_rede as Área, setor_rede as Setor, lider_cel_rede as Líder, cod_lider_rede as ID_Lider from tbl_redes  where id_rede like ?";
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtCorRede.getText() + "%");
+            pst.setString(1, txtId.getText() + "%");
             rs = pst.executeQuery();
             tblPastor.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
@@ -49,9 +46,13 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         }
     }
 
-    public void setar_campos() {
+    public void organizarTbl() {
 
-        
+        DefaultTableModel modelo = (DefaultTableModel) tblPastor.getModel();
+        tblPastor.setRowSorter(new TableRowSorter(modelo));
+    }
+
+    public void setar_campos() {
 
         int setar = tblPastor.getSelectedRow();
         txtId.setText(tblPastor.getModel().getValueAt(setar, 0).toString());
@@ -109,9 +110,8 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
                     JOptionPane.showMessageDialog(null, "Dados inseridos com sucesso.");
                     txtId.setText(null);
-                    txtSetor.setText(null);
                     txtLider.setText(null);
-                    txtIdLider.setText(null);
+
                     this.pesquisa_avancada();
 
                 }
