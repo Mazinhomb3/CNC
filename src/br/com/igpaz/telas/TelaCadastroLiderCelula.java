@@ -25,7 +25,9 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         conexao = ModuloConexao.conector();
         this.pesquisa_avancada();
 
-        //selecao da tabela por ordem
+        DefaultTableModel modelo = (DefaultTableModel) tblPastor.getModel();
+        tblPastor.setRowSorter(new TableRowSorter(modelo));
+
         //Verifica data do sistema
         Date data = new Date();
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
@@ -35,21 +37,17 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
     }
 
     private void pesquisa_avancada() {
-        String sql = "select id_rede as ID, superv_rede as Supervisor , cor_rede as Cor , pr_rede as Pr, distrito_rede as Distrito, area_rede as Área, setor_rede as Setor, lider_cel_rede as Líder, cod_lider_rede as ID_Lider from tbl_redes  where id_rede like ?";
+        String sql = "select id_rede as ID, superv_rede as Supervisor, cor_rede as Cor_Rede, pr_rede as Rede, distrito_rede as Distrito, area_rede as Area, setor_rede as Setor, lider_cel_rede as Lider, cod_lider_rede as Cod_Lider from tbl_redes where lider_cel_rede like ?";
+
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtId.getText() + "%");
+            pst.setString(1, txtLider.getText() + "%");
+
             rs = pst.executeQuery();
             tblPastor.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-    }
-
-    public void organizarTbl() {
-
-        DefaultTableModel modelo = (DefaultTableModel) tblPastor.getModel();
-        tblPastor.setRowSorter(new TableRowSorter(modelo));
     }
 
     public void setar_campos() {
@@ -525,7 +523,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
     private void tblPastorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPastorMouseClicked
         // Setar Campos
-        Limpar();
+
         setar_campos();
     }//GEN-LAST:event_tblPastorMouseClicked
 
