@@ -12,6 +12,7 @@ package br.com.igpaz.telas;
 import java.sql.*;
 import br.com.igpaz.dal.ModuloConexao;
 import java.awt.Color;
+import java.security.MessageDigest;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
@@ -34,12 +35,28 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
 
 //metodo para adicionar usuarios
     private void adicionar() {
-        String sql = "insert into cnc (usuario,login,senha,perfil) values (?,?,?,?)";
+
+        String password = txtUsuSenha.getText();
+
+        String sql = "insert into cnc (usuario,email,senha,perfil) values (?,?,?,?)";
         try {
+
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte messageDiget[] = md.digest(password.getBytes("UTF-8"));
+            StringBuilder sb = new StringBuilder();
+
+            for (byte b : messageDiget) {
+
+                sb.append(String.format("%02X", 0xFF & b));
+
+            }
+
+            String senhahex = sb.toString();
+
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtEmail.getText());
-            pst.setString(2, txtUsuNome.getText());
-            pst.setString(3, txtUsuSenha.getText());
+            pst.setString(1, txtUsuNome.getText());
+            pst.setString(2, txtEmail.getText());
+            pst.setString(3, senhahex);
             pst.setString(4, cboUsuPerfil.getSelectedItem().toString());
 //vlidação dos campos Obrigatorios
             if ((txtEmail.getText().isEmpty()) || (txtEmail.getText().isEmpty()) || (txtUsuSenha.getText().isEmpty())) {
@@ -50,7 +67,8 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
 //esse codigo atualiza o banco de dados
                 int adicionado = pst.executeUpdate();
 //A llinha abaixo serve de apoio ao codigo           
-// System.out.println(adicionado);
+                // System.out.println(password);
+
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Cadastro inseridos com sucesso.");
                     txtUsuId.setText(null);
@@ -196,7 +214,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
 
         jLabel5.setText("*Perfil Usuario:");
 
-        cboUsuPerfil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "MASTER", "user", " " }));
+        cboUsuPerfil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMIN", "MASTER", "USER", " " }));
         cboUsuPerfil.setToolTipText("");
         cboUsuPerfil.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -355,10 +373,10 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                     .addComponent(btnUseDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 639, 480);
+        setBounds(0, 0, 639, 486);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUsucreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsucreateActionPerformed

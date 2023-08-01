@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -39,11 +40,31 @@ public class TelaLogin extends javax.swing.JFrame {
     @SuppressWarnings("empty-statement")
 
     public void logar() {
+        
+        String password = txtSenha.getText();
+        
         String sql = "select * from cnc where email=? and senha =?";
+        
+        
+        
         try {
+            
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte messageDiget[] = md.digest(password.getBytes("UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            
+            for (byte b : messageDiget) {
+
+                sb.append(String.format("%02X", 0xFF & b));
+
+            }
+
+            String senhahex = sb.toString();
+            
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtLogin.getText().toString());
-            pst.setString(2, txtSenha.getText());
+           // pst.setString(2, senhahex);
+            pst.setString(2, senhahex);
 
             rs = pst.executeQuery();
 
@@ -65,7 +86,7 @@ public class TelaLogin extends javax.swing.JFrame {
                     TelaPrincipal.lblUsuario.setForeground(Color.red);
 
                     this.dispose();
-                    conexao.close();
+                   
 
                 } else if (perfil.equals("MASTER")) {
                     TelaPrincipal principal = new TelaPrincipal();
@@ -75,9 +96,11 @@ public class TelaLogin extends javax.swing.JFrame {
                     TelaPrincipal.menCadDadosCel.setEnabled(true);
                     TelaPrincipal.lblUsuario.setText(rs.getString(2));
                     TelaPrincipal.lblUsuario.setForeground(Color.BLUE);
+                    TelaPrincipal.lblUsuario.setText(rs.getString(2).toUpperCase());
+                    TelaPrincipal.lblUsuario.setForeground(Color.red);
 
                     this.dispose();
-                    conexao.close();
+                    
 
                 } else {
 
@@ -87,7 +110,7 @@ public class TelaLogin extends javax.swing.JFrame {
                     TelaPrincipal.lblUsuario.setForeground(Color.BLUE);
 
                     this.dispose();
-                    conexao.close();
+                    
 
                     //JOptionPane.showMessageDialog(null, pessoas);
                 }
@@ -95,6 +118,7 @@ public class TelaLogin extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario ou Senha ivalidos ");
                 txtLogin.setText(null);
+                txtSenha.setText(null);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -168,17 +192,16 @@ public class TelaLogin extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(69, 69, 69)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(txtLogin))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(6, 6, 6)
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(51, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,7 +223,7 @@ public class TelaLogin extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblStatus))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(364, 202));
@@ -221,7 +244,7 @@ public class TelaLogin extends javax.swing.JFrame {
     private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == evt.VK_ENTER) {
-            btnLogin.requestFocus();
+            logar();
         }
 
     }//GEN-LAST:event_txtSenhaKeyPressed
