@@ -40,38 +40,39 @@ public class TelaLogin extends javax.swing.JFrame {
     @SuppressWarnings("empty-statement")
 
     public void logar() {
-        
-        String password = txtSenha.getText();
-        
+
+        //String password = txtSenha.getText();
+
         String sql = "select * from cnc where email=? and senha =?";
-        
+
         
         
         try {
-            
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte messageDiget[] = md.digest(password.getBytes("UTF-8"));
-            StringBuilder sb = new StringBuilder();
-            
-            for (byte b : messageDiget) {
 
-                sb.append(String.format("%02X", 0xFF & b));
+            //MessageDigest md = MessageDigest.getInstance("SHA-256");
+           // byte messageDiget[] = md.digest(password.getBytes("UTF-8"));
+            //StringBuilder sb = new StringBuilder();
 
-            }
+            //for (byte b : messageDiget) {
 
-            String senhahex = sb.toString();
-            
+              //  sb.append(String.format("%02X", 0xFF & b));
+
+           // }
+
+           // String senhahex = sb.toString();
+
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtLogin.getText().toString());
-           // pst.setString(2, senhahex);
-            pst.setString(2, senhahex);
+            pst.setString(2, txtSenha.getText().toString());
+            // pst.setString(2, senhahex);
+           
 
             rs = pst.executeQuery();
 
             if (rs.next()) {
 
                 String perfil = rs.getString(5);
-                
+
                 if (perfil.equals("admin")) {
 
                     TelaPrincipal principal = new TelaPrincipal();
@@ -86,21 +87,21 @@ public class TelaLogin extends javax.swing.JFrame {
                     TelaPrincipal.lblUsuario.setForeground(Color.red);
 
                     this.dispose();
-                   
+
 
                 } else if (perfil.equals("MASTER")) {
                     TelaPrincipal principal = new TelaPrincipal();
                     principal.setVisible(true);
-                    TelaPrincipal.menCadUsuario.setEnabled(true);
+                    /*TelaPrincipal.menCadUsuario.setEnabled(true);
                     TelaPrincipal.MenCadLidCel.setEnabled(true);
                     TelaPrincipal.menCadDadosCel.setEnabled(true);
                     TelaPrincipal.lblUsuario.setText(rs.getString(2));
                     TelaPrincipal.lblUsuario.setForeground(Color.BLUE);
                     TelaPrincipal.lblUsuario.setText(rs.getString(2).toUpperCase());
                     TelaPrincipal.lblUsuario.setForeground(Color.red);
-
+                     */
                     this.dispose();
-                    
+
 
                 } else {
 
@@ -110,7 +111,7 @@ public class TelaLogin extends javax.swing.JFrame {
                     TelaPrincipal.lblUsuario.setForeground(Color.BLUE);
 
                     this.dispose();
-                    
+
 
                     //JOptionPane.showMessageDialog(null, pessoas);
                 }
