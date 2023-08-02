@@ -15,7 +15,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         setIcon();
         conexao = ModuloConexao.conector();
         
-        TelaConvetidos.lblUsuarioFinal = lblUsuario;
+        //TelaConvetidos.lblUsuarioFinal = lblUsuario;
 
     }
 

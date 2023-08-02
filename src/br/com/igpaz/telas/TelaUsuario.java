@@ -54,7 +54,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             String senhahex = sb.toString();
 
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtUsuNome.getText());
+            pst.setString(1, txtUsuNome.getText().toUpperCase());
             pst.setString(2, txtEmail.getText());
             pst.setString(3, senhahex);
             pst.setString(4, cboUsuPerfil.getSelectedItem().toString());
@@ -88,7 +88,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         String sql = "update cnc set usuario=?, login=?, senha=?, perfil=? where iduser=? ";
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtUsuNome.getText());
+            pst.setString(1, txtUsuNome.getText().toUpperCase());
             pst.setString(2, txtEmail.getText());
             pst.setString(3, txtUsuSenha.getText());
             pst.setString(4, cboUsuPerfil.getSelectedItem().toString());
